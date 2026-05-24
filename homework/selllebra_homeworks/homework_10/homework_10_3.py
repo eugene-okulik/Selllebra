@@ -1,15 +1,14 @@
 def decider(func):
-    def wrapper(num1, num2, oper):
+    def wrapper(num1, num2):
         if num1 < 0 or num2 < 0:
-            print("Сработал decider:", num1 * num2)
+            operation = "*"
         elif num1 < num2:
-            print("Сработал decider:", num1 / num2)
+            operation = "/"
         elif num1 == num2:
-            print("Сработал decider:", num1 + num2)
+            operation = "+"
         elif num1 > num2:
-            print("Сработал decider:", num1 - num2)
-        else:
-            func(num1, num2, oper)
+            operation = "-"
+        return func(num1, num2, operation)
     return wrapper
 
 
@@ -27,4 +26,4 @@ def calc(a, b, c):
 
 first, second = map(int, input("Add two numbers: ").split())
 
-calc(first, second, "+")
+calc(first, second)

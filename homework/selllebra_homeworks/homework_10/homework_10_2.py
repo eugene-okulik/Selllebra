@@ -1,7 +1,7 @@
 def repeat(times=1):
     def decorator(func):
         def wrapper():
-            for i in range(times):
+            for _ in range(times):
                 result = func()
             return result
         return wrapper

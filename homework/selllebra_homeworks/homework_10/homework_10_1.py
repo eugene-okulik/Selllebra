@@ -9,7 +9,7 @@ def task_finished(func):
 @task_finished
 def mood():
     your_mood = input('How are you?')
-    print(f'Your mood is{your_mood}')
+    print(f'Your mood is {your_mood}')
 
 
 mood()
