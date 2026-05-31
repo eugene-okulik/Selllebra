@@ -41,14 +41,14 @@ class Bouquet:
 
     def sort_by_price(self):
         sorted_flowers = sorted(self.flowers, key=lambda flower: flower.price)
-        return {flower.name: flower.price for flower in sorted_flowers}
+        return {flower for flower in sorted_flowers}
 
     def sort_by_color(self):
         sorted_flowers = sorted(self.flowers, key=lambda flower: flower.color)
-        return [flower.name for flower in sorted_flowers]
+        return [flower for flower in sorted_flowers]
 
     def find_by_color(self, color):
-        return [f.name for f in self.flowers if f.color == color]
+        return [flower for flower in self.flowers if flower.color == color]
 
 
 bouquet_order1 = Bouquet([flower1, flower2, flower3])
