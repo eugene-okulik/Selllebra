@@ -1,0 +1,37 @@
+1) INSERT INTO students (name, second_name) VALUES ('Vera', 'Kim')
+2) INSERT INTO books (title, taken_by_student_id) VALUES ('The book one', 22990)
+   INSERT INTO books (title, taken_by_student_id) VALUES ('The book two', 22990)
+   INSERT INTO books (title, taken_by_student_id) VALUES ('The book three', 22990)
+   INSERT INTO books (title, taken_by_student_id) VALUES ('The book four', 22990)
+3) INSERT INTO `groups` (title, start_date, end_date) VALUES ('Individ', 'april', 'july')
+   UPDATE students SET group_id = 22818 WHERE id = 22990
+4) INSERT INTO subjects (title) VALUES ('Individ subject')
+   INSERT INTO subjects (title) VALUES ('Individ subject_hard')
+5) INSERT INTO lessons (title, subject_id) VALUES ('Lesson_one_for_Individ_subject', 23004)
+   INSERT INTO lessons (title, subject_id) VALUES ('Lesson_two_for_Individ_subject', 23004)
+   INSERT INTO lessons (title, subject_id) VALUES ('Lesson_one_for_Individ_subject_hard', 23005)
+   INSERT INTO lessons (title, subject_id) VALUES ('Lesson_two_for_Individ_subject_hard', 23005)
+6) INSERT INTO marks (value, lesson_id, student_id) VALUES (5, 76320, 22990)
+   INSERT INTO marks (value, lesson_id, student_id) VALUES (6, 76321, 22990)
+   INSERT INTO marks (value, lesson_id, student_id) VALUES (7, 76322, 22990)
+   INSERT INTO marks (value, lesson_id, student_id) VALUES (8, 76323, 22990)
+
+SELECTS:
+
+1) SELECT m.value FROM marks m WHERE student_id = 22990
+2) SELECT b.title FROM books b WHERE taken_by_student_id = 22990
+3)
+SELECT s.name,
+s.second_name,
+g.title as group_name,
+b.title as books_taken,
+sub.title as subject,
+l.title as lesson,
+m.value as mark
+FROM students s
+JOIN books b ON s.id = b.taken_by_student_id
+JOIN `groups` g ON s.group_id = g.id
+JOIN marks m ON m.student_id = s.id
+JOIN lessons l ON l.id = m.lesson_id
+JOIN subjects sub ON sub.id = l.subject_id
+WHERE s.id = 22990
