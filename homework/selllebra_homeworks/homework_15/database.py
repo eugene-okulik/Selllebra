@@ -14,22 +14,14 @@ cursor.execute("INSERT INTO students (name, second_name) "
                "VALUES (%s, %s)", ('John', 'Galt'))
 stud_id = cursor.lastrowid
 
-cursor.execute("INSERT INTO books (title, taken_by_student_id) "
-               "VALUES (%s, %s)",
-               ('Book one', stud_id)
-               )
-cursor.execute("INSERT INTO books (title, taken_by_student_id) "
-               "VALUES (%s, %s)",
-               ('Book two', stud_id)
-               )
-cursor.execute("INSERT INTO books (title, taken_by_student_id) "
-               "VALUES (%s, %s)",
-               ('Book three', stud_id)
-               )
-cursor.execute("INSERT INTO books (title, taken_by_student_id) "
-               "VALUES (%s, %s)",
-               ('Book four', stud_id)
-               )
+query_book = "INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)"
+values_b = [
+    ('Book one', stud_id),
+    ('Book two', stud_id),
+    ('Book three', stud_id),
+    ('Book four', stud_id)
+    ]
+cursor.executemany(query_book, values_b)
 
 cursor.execute("INSERT INTO `groups` (title, start_date, end_date) "
                "VALUES (%s, %s, %s)",
@@ -40,54 +32,35 @@ cursor.execute("UPDATE students SET group_id = %s WHERE id = %s",
                (gr_id, stud_id)
                )
 
+subjects_titles = ['Private subject', 'Private subject_hard']
+subjects_ids = []
 
-cursor.execute("INSERT INTO subjects (title) VALUES (%s)",
-               ('Private subject',)
-               )
-sub1_id = cursor.lastrowid
-cursor.execute("INSERT INTO subjects (title) VALUES (%s)",
-               ('Private subject_hard',)
-               )
-sub2_id = cursor.lastrowid
+for title in subjects_titles:
+    cursor.execute("INSERT INTO subjects (title) VALUES (%s)", [title])
+    subjects_ids.append(cursor.lastrowid)
 
-cursor.execute("INSERT INTO lessons (title, subject_id) "
-               "VALUES (%s, %s)",
-               ('Lesson_one_for_Private_subject', sub1_id)
-               )
-les1_id = cursor.lastrowid
-cursor.execute("INSERT INTO lessons (title, subject_id) "
-               "VALUES (%s, %s)",
-               ('Lesson_two_for_Private_subject', sub1_id)
-               )
-les2_id = cursor.lastrowid
-cursor.execute("INSERT INTO lessons (title, subject_id) "
-               "VALUES (%s, %s)",
-               ('Lesson_one_for_Private subject_hard', sub2_id)
-               )
-les3_id = cursor.lastrowid
-cursor.execute("INSERT INTO lessons (title, subject_id) "
-               "VALUES (%s, %s)",
-               ('Lesson_two_for_Private subject_hard', sub2_id)
-               )
-les4_id = cursor.lastrowid
+lessons_data = [
+    ('Lesson_one_for_Private_subject', subjects_ids[0]),
+    ('Lesson_two_for_Private_subject', subjects_ids[0]),
+    ('Lesson_one_for_Private subject_hard', subjects_ids[1]),
+    ('Lesson_two_for_Private subject_hard', subjects_ids[1])
+]
+lessons_ids = []
 
+for title, sub_id in lessons_data:
+    cursor.execute("INSERT INTO lessons (title, subject_id) VALUES (%s, %s)",
+                   (title, sub_id))
+    lessons_ids.append(cursor.lastrowid)
 
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) "
-               "VALUES (%s, %s, %s)",
-               (5, les1_id, stud_id)
-               )
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) "
-               "VALUES (%s, %s, %s)",
-               (6, les2_id, stud_id)
-               )
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) "
-               "VALUES (%s, %s, %s)",
-               (7, les3_id, stud_id)
-               )
-cursor.execute("INSERT INTO marks (value, lesson_id, student_id) "
-               "VALUES (%s, %s, %s)",
-               (8, les4_id, stud_id)
-               )
+query_marks = ("INSERT INTO marks (value, lesson_id, student_id) "
+               "VALUES (%s, %s, %s)")
+values_m = [
+    (5, lessons_ids[0], stud_id),
+    (6, lessons_ids[1], stud_id),
+    (7, lessons_ids[2], stud_id),
+    (8, lessons_ids[3], stud_id)
+]
+cursor.executemany(query_marks, values_m)
 
 cursor.execute("SELECT m.value FROM marks m WHERE student_id = %s",
                (stud_id,)
