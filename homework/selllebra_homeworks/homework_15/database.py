@@ -20,7 +20,7 @@ values_b = [
     ('Book two', stud_id),
     ('Book three', stud_id),
     ('Book four', stud_id)
-    ]
+]
 cursor.executemany(query_book, values_b)
 
 cursor.execute("INSERT INTO `groups` (title, start_date, end_date) "
