@@ -29,7 +29,6 @@ cursor.execute('''
     JOIN marks m ON m.student_id = s.id
     JOIN lessons l ON l.id = m.lesson_id
     JOIN subjects sub ON sub.id = l.subject_id
-    WHERE s.second_name = 'Ivanov'
 ''')
 
 data = cursor.fetchall()
@@ -42,8 +41,13 @@ for row in data:
         new_row.append(str(value))
     db_data.append(new_row)
 
-with open('..\\..\\eugene_okulik\\Lesson_16\\hw_data\\data.csv') as csvfile:
+homework_dir = os.path.dirname(__file__)
+file_dir = os.path.dirname(os.path.dirname(homework_dir))
+file_path = os.path.join(file_dir, 'eugene_okulik', 'lesson_16', 'hw_data', 'data.csv')
+
+with open(file_path) as csvfile:
     filedata = csv.reader(csvfile, delimiter=',')
+    next(filedata)
     for row in filedata:
         if row not in db_data:
             print(row)
