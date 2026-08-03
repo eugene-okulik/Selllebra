@@ -12,20 +12,20 @@ def new_object():
         json=body,
         headers=headers
     )
-    assert response.status_code == 201, 'Status code is incorrect'
+
+    assert response.status_code == 200, 'Status code is incorrect'
     return response.json()['id']
 
 
-def get_one_object():
-    object_id = new_object()
+def get_one_object(object_id):
     response = requests.get(
-        f'http://objapi.course.qa-practice.com/{object_id}'
-    ).json()
-    assert response['id'] == object_id
+        f'http://objapi.course.qa-practice.com/object/{object_id}'
+    )
+    return response
 
 
 def clear(object_id):
-    requests.delete(f'http://objapi.course.qa-practice.com/{object_id}')
+    requests.delete(f'http://objapi.course.qa-practice.com/object/{object_id}')
 
 
 def put_an_object():
@@ -36,12 +36,13 @@ def put_an_object():
     }
     headers = {'Content-Type': 'application/json'}
     response = requests.put(
-        f'http://objapi.course.qa-practice.com/{object_id}',
+        f'http://objapi.course.qa-practice.com/object/{object_id}',
         json=body,
         headers=headers
-    ).json()
+    )
 
-    assert response['name'] == 'August_2026'
+    assert response.status_code == 200, 'Status code is incorrect'
+    assert response.json()['name'] == 'August_2026'
     clear(object_id)
 
 
@@ -52,20 +53,27 @@ def patch_an_object():
     }
     headers = {'Content-Type': 'application/json'}
     response = requests.patch(
-        f'http://objapi.course.qa-practice.com/{object_id}',
+        f'http://objapi.course.qa-practice.com/object/{object_id}',
         json=body,
         headers=headers
-    ).json()
+    )
 
-    assert response['name'] == 'August_2026_timetable'
+    assert response.status_code == 200, 'Status code is incorrect'
+    assert response.json()['name'] == 'August_2026_timetable'
     clear(object_id)
 
 
 def delete_an_object():
     object_id = new_object()
     response = requests.delete(
-        f'http://objapi.course.qa-practice.com/{object_id}'
+        f'http://objapi.course.qa-practice.com/object/{object_id}'
     )
 
-    get_one_object(object_id)
+    response = get_one_object(object_id)
     assert response.status_code == 404, 'Status code is incorrect'
+
+
+new_object()
+put_an_object()
+patch_an_object()
+delete_an_object()
