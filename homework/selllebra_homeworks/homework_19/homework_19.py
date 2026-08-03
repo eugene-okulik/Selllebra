@@ -19,13 +19,13 @@ def new_object():
 def get_one_object():
     object_id = new_object()
     response = requests.get(
-        f'https://jsonplaceholder.typicode.com/posts/{object_id}'
+        f'http://objapi.course.qa-practice.com/{object_id}'
     ).json()
     assert response['id'] == object_id
 
 
 def clear(object_id):
-    requests.delete(f'https://jsonplaceholder.typicode.com/posts/{object_id}')
+    requests.delete(f'http://objapi.course.qa-practice.com/{object_id}')
 
 
 def put_an_object():
@@ -36,7 +36,7 @@ def put_an_object():
     }
     headers = {'Content-Type': 'application/json'}
     response = requests.put(
-        f'https://jsonplaceholder.typicode.com/posts/{object_id}',
+        f'http://objapi.course.qa-practice.com/{object_id}',
         json=body,
         headers=headers
     ).json()
@@ -52,7 +52,7 @@ def patch_an_object():
     }
     headers = {'Content-Type': 'application/json'}
     response = requests.patch(
-        f'https://jsonplaceholder.typicode.com/posts/{object_id}',
+        f'http://objapi.course.qa-practice.com/{object_id}',
         json=body,
         headers=headers
     ).json()
@@ -64,7 +64,7 @@ def patch_an_object():
 def delete_an_object():
     object_id = new_object()
     response = requests.delete(
-        f'https://jsonplaceholder.typicode.com/posts/{object_id}'
+        f'http://objapi.course.qa-practice.com/{object_id}'
     )
 
     get_one_object(object_id)
